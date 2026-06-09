@@ -12,6 +12,15 @@ if errorlevel 1 (
     exit /b 1
 )
 
+where uv >nul 2>nul
+if errorlevel 1 (
+    echo.
+    echo uv nao encontrado.
+    echo Execute scripts\configurar_ambiente.bat para instalar e preparar o ambiente.
+    pause
+    exit /b 1
+)
+
 if not exist .venv\Scripts\python.exe (
     echo.
     echo Ambiente .venv nao encontrado.
@@ -21,8 +30,19 @@ if not exist .venv\Scripts\python.exe (
 )
 
 echo.
-echo Atualizando dependencias...
-.venv\Scripts\python.exe -m pip install -r requirements.txt
+echo Garantindo Python 3.10...
+uv python install 3.10
+
+if errorlevel 1 (
+    echo.
+    echo Erro: nao foi possivel garantir o Python 3.10 com uv.
+    pause
+    exit /b 1
+)
+
+echo.
+echo Atualizando dependencias com uv...
+uv pip install -r requirements.txt
 
 if errorlevel 1 (
     echo.

@@ -14,6 +14,20 @@ if not exist "%PYTHON_EXE%" (
 echo Verificando versao do Python...
 "%PYTHON_EXE%" --version
 
+rem O MediaPipe usado no projeto e compativel com Python 3.10.x.
+rem Esta checagem evita que o aluno rode sem perceber com outra versao.
+"%PYTHON_EXE%" -c "import sys; raise SystemExit(0 if sys.version_info[:2] == (3, 10) else 1)"
+
+if errorlevel 1 (
+    echo.
+    echo Erro: o ambiente .venv nao esta usando Python 3.10.x.
+    echo Execute scripts\configurar_ambiente.bat novamente.
+    pause
+    exit /b 1
+)
+
+echo Python 3.10.x confirmado.
+
 echo.
 echo Testando bibliotecas do projeto...
 "%PYTHON_EXE%" -c "import cv2; print('OpenCV OK')"

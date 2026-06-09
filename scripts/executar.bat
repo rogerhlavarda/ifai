@@ -11,5 +11,5 @@ if not exist "%PYTHON_EXE%" (
     exit /b 1
 )
 
-"%PYTHON_EXE%" app\main.py
+.venv\Scripts\python.exe app\main.py
 pause

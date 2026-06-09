@@ -95,26 +95,42 @@ mao-robotica-ifai/
 
 ## 7. Como criar o ambiente virtual
 
-No Windows, abra o terminal na pasta do projeto e execute:
+Nao e necessario fazer downgrade do Python instalado no computador do laboratorio.
+
+Este projeto usa `uv` para baixar e gerenciar uma versao compativel do Python 3.10 apenas para esta pasta. O Python global da maquina nao e alterado.
+
+Na primeira vez, no Windows, abra o terminal na pasta do projeto e execute:
 
 ```bat
 scripts\configurar_ambiente.bat
 ```
 
-Esse script cria a pasta `.venv`, ativa o ambiente virtual e instala as dependencias do `requirements.txt`.
+Esse script faz quatro etapas:
+
+1. Verifica se o `uv` esta instalado.
+2. Instala o `uv` automaticamente, se necessario.
+3. Baixa/garante o Python 3.10 com `uv`.
+4. Cria a pasta `.venv` e instala as dependencias do `requirements.txt`.
+
+O ambiente virtual `.venv` fica dentro da pasta do projeto.
 
 ## 8. Como instalar dependencias
 
-Se preferir fazer manualmente:
+O metodo recomendado e usar:
 
 ```bat
-python -m venv .venv
-.venv\Scripts\activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+scripts\configurar_ambiente.bat
 ```
 
-O projeto recomenda Python 3.10.x.
+Se for necessario fazer manualmente com `uv`, use:
+
+```bat
+uv python install 3.10
+uv venv .venv --python 3.10
+uv pip install -r requirements.txt
+```
+
+O arquivo `.python-version` informa ao `uv` que este projeto deve usar Python 3.10.
 
 ## 9. Como abrir no VS Code
 
@@ -132,6 +148,8 @@ O VS Code esta configurado para usar:
 
 Se o comando `code` nao estiver no PATH, abra o VS Code manualmente e escolha a pasta do projeto.
 
+Depois que o `.venv` for criado, o VS Code deve selecionar automaticamente o interpretador configurado em `.vscode/settings.json`.
+
 ## 10. Como executar
 
 Depois de configurar o ambiente e conectar o Arduino:
@@ -146,6 +164,14 @@ Durante a execucao:
 - Pressione `ESC` para sair.
 
 Se o Arduino nao conectar, a webcam ainda abre para permitir testar a deteccao dos dedos.
+
+Nas proximas aulas, se o professor atualizar o repositorio, execute:
+
+```bat
+scripts\atualizar_projeto.bat
+```
+
+Esse script roda `git pull` e atualiza as dependencias com `uv`.
 
 ## 11. Como calibrar os servos
 
@@ -218,6 +244,10 @@ Se houver erro, execute novamente:
 scripts\configurar_ambiente.bat
 ```
 
+**O laboratorio tem Python mais novo instalado**
+
+Nao remova nem altere esse Python. Execute `scripts\configurar_ambiente.bat`. O `uv` cria um Python 3.10 isolado para este projeto dentro do `.venv`.
+
 ## 15. Creditos ao projeto original
 
 Esta implementacao foi criada do zero para uso didatico no IFAI, inspirada conceitualmente no repositorio:
@@ -252,4 +282,3 @@ O polegar usa uma regra horizontal porque ele abre para o lado.
 | Medio | 9 |
 | Anelar | 10 |
 | Minimo | 11 |
-
