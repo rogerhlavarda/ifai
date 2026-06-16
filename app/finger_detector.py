@@ -16,13 +16,24 @@ FINGER_POINTS = {
     "minimo": {"tip": 20, "pip": 18},
 }
 
+DEFAULT_HAND_STATE = {
+    "polegar": True,
+    "indicador": True,
+    "medio": True,
+    "anelar": True,
+    "minimo": True,
+}
+
 
 def detect_fingers(hand_landmarks, handedness=None):
     """Retorna True para dedo aberto e False para dedo fechado."""
     if hand_landmarks is None:
-        return {finger: False for finger in FINGER_NAMES}
+        return DEFAULT_HAND_STATE.copy()
 
-    landmarks = hand_landmarks.landmark
+    landmarks = getattr(hand_landmarks, "landmark", None)
+
+    if landmarks is None or len(landmarks) <= 20:
+        return DEFAULT_HAND_STATE.copy()
 
     states = {
         "polegar": is_thumb_open(landmarks, handedness),

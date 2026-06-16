@@ -16,11 +16,11 @@ FINGER_NAMES = ["polegar", "indicador", "medio", "anelar", "minimo"]
 # Cada dedo controla um servo porque a mao robotica precisa movimentar
 # cada dedo de forma independente. Os pinos abaixo sao PWM no Arduino Uno.
 SERVO_PINS = {
-    "polegar": 3,
-    "indicador": 5,
-    "medio": 9,
-    "anelar": 10,
-    "minimo": 11,
+    "polegar": 11,
+    "indicador": 6,
+    "medio": 10,
+    "anelar": 5,
+    "minimo": 3,
 }
 
 # Os angulos variam conforme a montagem fisica da mao robotica.
